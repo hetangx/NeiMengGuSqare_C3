@@ -20,8 +20,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,
 	wc.hbrBackground = (HBRUSH)COLOR_WINDOW;
 	//wc.hCursor = LoadCursor(NULL, IDC_ARROW); //加载系统光标，第一个参数必须为空
 	wc.hCursor = LoadCursor(hInstance, MAKEINTRESOURCE(IDC_NODROP));//用户自己定义的指针图标，要先添加资源，然后在首行后添加 #include "resource.h"
-	wc.hIcon = LoadIcon(hInstance, IDI_SELFTEST);  //TODO, 测试
-	wc.hIconSm = LoadIcon(NULL,IDI_QUESTION);
+	wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SELFTEST));  //任务栏上的图标
+	wc.hIconSm = LoadIcon(NULL, MAKEINTRESOURCE(IDI_QUESTION));//程序运行左上角的图标
 	wc.hInstance = hInstance;
 	wc.lpfnWndProc = PEluoSi;//回调函数地址
 	wc.lpszClassName = "els";//窗口类名字，名字不要重复，给操作系统看的
