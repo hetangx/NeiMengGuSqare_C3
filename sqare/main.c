@@ -21,7 +21,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,
 	//wc.hCursor = LoadCursor(NULL, IDC_ARROW); //加载系统光标，第一个参数必须为空
 	wc.hCursor = LoadCursor(hInstance, MAKEINTRESOURCE(IDC_NODROP));//用户自己定义的指针图标，要先添加资源，然后在首行后添加 #include "resource.h"
 	wc.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SELFTEST));  //任务栏上的图标
-	wc.hIconSm = LoadIcon(NULL, MAKEINTRESOURCE(IDI_QUESTION));//程序运行左上角的图标
+	wc.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_SELFTEST));//程序运行左上角的图标
 	wc.hInstance = hInstance;
 	wc.lpfnWndProc = PEluoSi;//回调函数地址
 	wc.lpszClassName = "els";//窗口类名字，名字不要重复，给操作系统看的
@@ -64,8 +64,21 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,
 
 LRESULT CALLBACK PEluoSi(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 {
+	PAINTSTRUCT pts;
+	HDC hDC;
 	switch (nMsg)
 	{
+	case WM_CREATE://回调函数处理的第一个消息，窗口创建初期只产生一次，用于数据初始化
+		//如果没有代码，case被优化掉
+		break;
+	
+	case WM_PAINT://回调函数处理的第二个消息
+		hDC = BeginPaint(hWnd,&pts);//窗口可操作区域的标识
+			//画窗口上的内容
+		EndPaint(hWnd,&pts);
+		break;
+		//框架已经搭好，可以用于其他项目
+	
 	case WM_DESTROY:
 		PostQuitMessage(0); //WM_CLOSE, WM_DESTROY, WM_QUIT
 		break;
