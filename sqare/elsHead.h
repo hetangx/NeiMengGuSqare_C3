@@ -4,6 +4,8 @@
 #include <Windows.h>
 #include <time.h>
 
+#define DEF_TIMER1 1234
+
 void OnPaint(HDC hDC);//处理消息
 
 void PaintSqare(HDC hMemDC);//显示方块
@@ -13,5 +15,14 @@ int CreateRandomSqare();//创建随机方块
 void CopySqareToBack();//随机方块贴进背景
 
 void OnCreate();
+
+//按下回车键
+void OnReturn(HWND hWnd);
+
+//方块下落
+void SqareDown();
+
+//定时器响应函数
+void OnTimer(HWND hWnd);
 
 #endif // !DEF_ELS_HEAD

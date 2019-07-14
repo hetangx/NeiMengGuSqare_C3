@@ -84,8 +84,36 @@ LRESULT CALLBACK PEluoSi(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 		//Rectangle(hDC,0,0,300,600);
 		EndPaint(hWnd,&pts);
 		break;
-	
+
+	case WM_KEYDOWN://
+		switch (wParam)
+		{
+		case VK_RETURN:
+			OnReturn(hWnd);
+			break;
+		case VK_LEFT:
+
+			break;
+		case VK_RIGHT:
+
+			break;
+		case VK_UP:
+
+			break;
+		case VK_DOWN:
+
+			break;
+		default:
+			break;
+		}
+		break;
+
+	case WM_TIMER:
+		OnTimer(hWnd);
+		break;
+
 	case WM_DESTROY:
+		KillTimer(hWnd, DEF_TIMER1);
 		PostQuitMessage(0); //WM_CLOSE, WM_DESTROY, WM_QUIT
 		break;
 	}

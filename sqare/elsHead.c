@@ -1,8 +1,8 @@
 #include "elsHead.h"
 
 //背景数组,使用char节省空间
-int g_arrBackGround[20][10] = { 0 };//20行10列，i行j列
-int g_arrSqare[2][4] = { 0 };
+char g_arrBackGround[20][10] = { 0 };//20行10列，i行j列
+char g_arrSqare[2][4] = { 0 };
 
 
 void OnPaint(HDC hDC)
@@ -78,8 +78,8 @@ int CreateRandomSqare()
 			g_arrSqare[1][0] = 1, g_arrSqare[1][1] = 1, g_arrSqare[1][2] = 1, g_arrSqare[1][3] = 0;	//	|■■■ |
 		break;
 	case 5:
-		g_arrSqare[0][0] = 1, g_arrSqare[0][1] = 1, g_arrSqare[0][2] = 0, g_arrSqare[0][3] = 0,		//	|■■  |
-			g_arrSqare[1][0] = 1, g_arrSqare[1][1] = 1, g_arrSqare[1][2] = 0, g_arrSqare[1][3] = 0;	//	|■■  |
+		g_arrSqare[0][0] = 0, g_arrSqare[0][1] = 1, g_arrSqare[0][2] = 1, g_arrSqare[0][3] = 0,		//	| ■■ |
+			g_arrSqare[1][0] = 0, g_arrSqare[1][1] = 1, g_arrSqare[1][2] = 1, g_arrSqare[1][3] = 0;	//	| ■■ |
 		break;
 	case 6:
 		g_arrSqare[0][0] = 1, g_arrSqare[0][1] = 1, g_arrSqare[0][2] = 1, g_arrSqare[0][3] = 1,		//	|■■■■|
@@ -109,4 +109,37 @@ void OnCreate()
 	srand((unsigned int)time(NULL));
 	CreateRandomSqare();
 	CopySqareToBack();
+}
+
+void OnReturn(HWND hWnd)
+{
+	//打开定时器
+	SetTimer(hWnd, DEF_TIMER1, 500, NULL);
+
+}
+
+void SqareDown()
+{
+	int i = 0, j = 0;
+	for (i = 19; i >= 0; i--)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			if (1 == g_arrBackGround[i][j])
+			{
+				g_arrBackGround[i + 1][j] = g_arrBackGround[i][j];
+				g_arrBackGround[i][j] = 0;
+			}
+		}
+	}
+}
+
+void OnTimer(HWND hWnd)
+{
+	HDC hDC = GetDC(hWnd);//内核对象，使用完要释放
+	SqareDown();
+	//显示方块
+	OnPaint(hDC);
+
+	ReleaseDC(hWnd, hDC);
 }
