@@ -92,7 +92,8 @@ LRESULT CALLBACK PEluoSi(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 			OnReturn(hWnd);
 			break;
 		case VK_LEFT:
-
+			//×óÒÆ
+			OnLeft(hWnd);
 			break;
 		case VK_RIGHT:
 

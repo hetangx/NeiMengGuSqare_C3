@@ -235,3 +235,62 @@ void Change1to2()
 		}
 	}
 }
+
+void OnLeft(HWND hWnd)
+{ 
+	//·½¿é×óÒÆ
+	if (1 == CanSqareLeft()&&1== CanSqareLeft2())
+	{
+		HDC hDC = GetDC(hWnd);
+		SqareLeft();
+		//ÏÔÊ¾·½¿é
+		OnPaint(hDC);
+		ReleaseDC(hWnd, hDC);
+	}
+}
+void SqareLeft()
+{
+	int i = 0, j = 0;
+	for (i = 0; i < 20; i++)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			if (1 == g_arrBackGround[i][j])
+			{
+				g_arrBackGround[i][j - 1] = g_arrBackGround[i][j];
+				g_arrBackGround[i][j] = 0;
+			}
+		}
+	}
+}
+
+int CanSqareLeft()
+{
+	int i = 0;
+	for (i = 0; i < 20; i++)
+	{
+		if (1 == g_arrBackGround[i][0])
+		{
+			return 0;
+		}
+	}
+
+	return 1;
+}
+
+int CanSqareLeft2()
+{
+	int i = 0, j = 0;
+	for (i = 0; i < 20; i++)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			if (1 == g_arrBackGround[i][j])
+			{
+				if (2 == g_arrBackGround[i][j - 1])
+					return 0;
+			}
+		}
+	}
+	return 1;
+}

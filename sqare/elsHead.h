@@ -17,18 +17,20 @@ void CopySqareToBack();//随机方块贴进背景
 
 void OnCreate();
 
-//按下回车键
-void OnReturn(HWND hWnd);
+//方块移动
+void SqareDown();//方块降落
+void SqareLeft();//方块左移
 
-//方块下落
-void SqareDown();
-
-//定时器响应函数
+//响应函数
+void OnReturn(HWND hWnd);//按下回车键
 void OnTimer(HWND hWnd);
+void OnLeft(HWND hWnd);
 
 //方块停在最后一行  0 - 不可以下落  1 - 可以下落 
 int CanSqareDown();
 int CanSqareDown2();
+int CanSqareLeft();
+int CanSqareLeft2();
 
 //把1变成2
 void Change1to2();
