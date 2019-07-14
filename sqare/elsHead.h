@@ -25,4 +25,7 @@ void SqareDown();
 //定时器响应函数
 void OnTimer(HWND hWnd);
 
+//方块停在最后一行  0 - 不可以下落  1 - 可以下落 
+int CanSqareDown();
+
 #endif // !DEF_ELS_HEAD

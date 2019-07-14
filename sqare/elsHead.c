@@ -1,6 +1,6 @@
 #include "elsHead.h"
 
-//背景数组,使用char节省空间
+//背景全局数组,使用char节省空间
 char g_arrBackGround[20][10] = { 0 };//20行10列，i行j列
 char g_arrSqare[2][4] = { 0 };
 
@@ -137,9 +137,34 @@ void SqareDown()
 void OnTimer(HWND hWnd)
 {
 	HDC hDC = GetDC(hWnd);//内核对象，使用完要释放
-	SqareDown();
+
+	if (1==CanSqareDown())
+	{
+		SqareDown();
+	}
+	else
+	{
+		//不可以下落->到达底部，产生新的随机方块
+		CreateRandomSqare();
+		//复制到背景
+		CopySqareToBack();
+	}
+
 	//显示方块
 	OnPaint(hDC);
 
 	ReleaseDC(hWnd, hDC);
+}
+
+int CanSqareDown()
+{
+	int i = 0;
+	for (i = 0; i < 10; i++)
+	{
+		if (1 == g_arrBackGround[19][i])
+		{
+			return 0;
+		}
+	}
+	return 1;
 }
