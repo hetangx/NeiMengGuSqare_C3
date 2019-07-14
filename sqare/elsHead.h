@@ -20,17 +20,22 @@ void OnCreate();
 //方块移动
 void SqareDown();//方块降落
 void SqareLeft();//方块左移
+void SqareRight();//右移
 
 //响应函数
 void OnReturn(HWND hWnd);//按下回车键
 void OnTimer(HWND hWnd);
 void OnLeft(HWND hWnd);
+void OnRight(HWND hWnd);
+void OnDown(HWND hWnd);
 
 //方块停在最后一行  0 - 不可以下落  1 - 可以下落 
 int CanSqareDown();
 int CanSqareDown2();
 int CanSqareLeft();
 int CanSqareLeft2();
+int CanSqareRight();
+int CanSqareRight2();
 
 //把1变成2
 void Change1to2();

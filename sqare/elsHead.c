@@ -23,6 +23,11 @@ void OnPaint(HDC hDC)
 	// Õ∑≈
 	DeleteObject(hBitmapBack);
 	DeleteDC(hMemDC);
+	/*
+	◊¢“‚£∫
+	GetDC --- ReleaseDC
+	Create...DC --- DeleteDC
+	*/
 }
 
 void PaintSqare(HDC hMemDC)
@@ -293,4 +298,70 @@ int CanSqareLeft2()
 		}
 	}
 	return 1;
+}
+
+void OnRight(HWND hWnd)
+{
+	if (1 == CanSqareRight()&&1==CanSqareRight2())
+	{
+		HDC hDC = GetDC(hWnd);
+		//∑ΩøÈ”““∆
+		SqareRight();
+		OnPaint(hDC);
+		ReleaseDC(hWnd, hDC);
+	}
+	
+}
+
+void SqareRight()
+{
+	int i = 0, j = 0;
+	for (i = 0; i < 20; i++)
+	{
+		for (j = 9; j >= 0; j--)
+		{
+			if (1 == g_arrBackGround[i][j])
+			{
+				g_arrBackGround[i][j + 1] = g_arrBackGround[i][j];
+				g_arrBackGround[i][j] = 0;
+			}
+		}
+	}
+}
+
+int CanSqareRight()
+{
+	int i = 0;
+	for (i = 0; i < 20; i++)
+	{
+		if (1 == g_arrBackGround[i][9])
+		{
+			return 0;
+		}
+	}
+	return 1;
+}
+
+int CanSqareRight2()
+{
+	int i = 0, j = 0;
+	for (i = 0; i < 20; i++)
+	{
+		for (j = 9; j >= 0; j--)
+		{
+			if (1 == g_arrBackGround[i][j])
+			{
+				if (2 == g_arrBackGround[i][j + 1])
+				{
+					return 0;
+				}
+			}
+		}
+	}
+	return 1;
+}
+
+void OnDown(HWND hWnd)
+{
+	OnTimer(hWnd);
 }
