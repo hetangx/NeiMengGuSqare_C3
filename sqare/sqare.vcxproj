@@ -143,9 +143,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="elsHead.c" />
     <ClCompile Include="main.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="elsHead.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>

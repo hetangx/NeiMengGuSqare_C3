@@ -1,6 +1,8 @@
 #include <Windows.h>
 #include "resource.h"
+#include "elsHead.h"
 LRESULT CALLBACK PEluoSi(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam);
+
 
 //_In_ _In_opt_ is SAL, search MSDN Docs
 //句柄：一个数, 窗口的唯一标识,
@@ -39,14 +41,16 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance,
 		return 0;
 	}
 	//创建窗口
-	hWnd=CreateWindowEx(WS_EX_TOPMOST,"els","内蒙古方块",WS_OVERLAPPEDWINDOW,100,100,500,500,NULL,NULL,hInstance,NULL);
+	hWnd=CreateWindowEx(WS_EX_TOPMOST,"els","内蒙古方块",
+		WS_OVERLAPPEDWINDOW,100,30,500,650,
+		NULL,NULL,hInstance,NULL);
 	if(NULL==hWnd)  //窗口句柄   123   窗口的唯一标识
 	{
 		return 0;
 	}
 
 	//显示窗口
-	ShowWindow(hWnd, nShowCmd );/*也可以写  SW_SHOWNORMAL */
+	ShowWindow(hWnd, nShowCmd );//也可以写  SW_SHOWNORMAL 
 	//隐藏显示返回0   正常显示返回非0
 
 	//消息循环
@@ -70,14 +74,16 @@ LRESULT CALLBACK PEluoSi(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_CREATE://回调函数处理的第一个消息，窗口创建初期只产生一次，用于数据初始化
 		//如果没有代码，case被优化掉
+		OnCreate();
 		break;
 	
 	case WM_PAINT://回调函数处理的第二个消息
 		hDC = BeginPaint(hWnd,&pts);//窗口可操作区域的标识
 			//画窗口上的内容
+		OnPaint(hDC);
+		//Rectangle(hDC,0,0,300,600);
 		EndPaint(hWnd,&pts);
 		break;
-		//框架已经搭好，可以用于其他项目
 	
 	case WM_DESTROY:
 		PostQuitMessage(0); //WM_CLOSE, WM_DESTROY, WM_QUIT
@@ -86,3 +92,4 @@ LRESULT CALLBACK PEluoSi(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 
 	return DefWindowProc(hWnd, nMsg, wParam, lParam);//
 }
+
