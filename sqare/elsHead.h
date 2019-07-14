@@ -9,6 +9,7 @@
 void OnPaint(HDC hDC);//处理消息
 
 void PaintSqare(HDC hMemDC);//显示方块
+void PaintSqare2(HDC hMemDC);
 
 int CreateRandomSqare();//创建随机方块
 

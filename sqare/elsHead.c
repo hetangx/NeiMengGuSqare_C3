@@ -15,7 +15,7 @@ void OnPaint(HDC hDC)
 	SelectObject(hMemDC, hBitmapBack);
 
 	PaintSqare(hMemDC);
-
+	PaintSqare2(hMemDC);
 
 	//内存DC传递至窗口DC
 	BitBlt(hDC, 0, 0, 300, 600, hMemDC, 0, 0, SRCCOPY);
@@ -37,19 +37,49 @@ void PaintSqare(HDC hMemDC)
 	g_arrBackGround[3][4] = 1;
 	g_arrBackGround[3][5] = 1;
 	*/
-	
+
+	HBRUSH hWhiteRec;
+	HBRUSH hColorRec = CreateSolidBrush(RGB(233, 27, 182));
+	hWhiteRec = SelectObject(hMemDC, hColorRec);
+
 	int i = 0, j = 0;
 	for (i = 0; i < 20; i++)
 	{
 		for (j = 0; j < 10; j++)
 		{
-			if (g_arrBackGround[i][j] >= 1)
+			if (g_arrBackGround[i][j] == 1)
 			{
 				//画小方块
+				Rectangle(hMemDC, j * 30, i * 30, j * 30 + 30, i * 30 + 30);
+
+			}
+		}
+	}
+
+	hColorRec = SelectObject(hMemDC, hWhiteRec);
+	DeleteObject(hColorRec);
+}
+
+void PaintSqare2(HDC hMemDC)
+{
+	HBRUSH hWhiteRec;
+	HBRUSH hColorRec = CreateSolidBrush(RGB(114, 179, 49));
+	hWhiteRec = SelectObject(hMemDC, hColorRec);
+	int i = 0, j = 0;
+	for (i = 0; i < 20; i++)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			if (2 == g_arrBackGround[i][j])
+			{
+				//画方块
 				Rectangle(hMemDC, j * 30, i * 30, j * 30 + 30, i * 30 + 30);
 			}
 		}
 	}
+
+	hColorRec = SelectObject(hMemDC, hWhiteRec);
+	DeleteObject(hColorRec);
 }
 
 int CreateRandomSqare()
