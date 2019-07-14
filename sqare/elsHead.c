@@ -43,7 +43,7 @@ void PaintSqare(HDC hMemDC)
 	{
 		for (j = 0; j < 10; j++)
 		{
-			if (g_arrBackGround[i][j] == 1)
+			if (g_arrBackGround[i][j] >= 1)
 			{
 				//画小方块
 				Rectangle(hMemDC, j * 30, i * 30, j * 30 + 30, i * 30 + 30);
@@ -114,7 +114,7 @@ void OnCreate()
 void OnReturn(HWND hWnd)
 {
 	//打开定时器
-	SetTimer(hWnd, DEF_TIMER1, 500, NULL);
+	SetTimer(hWnd, DEF_TIMER1, 150, NULL);
 
 }
 
@@ -138,12 +138,14 @@ void OnTimer(HWND hWnd)
 {
 	HDC hDC = GetDC(hWnd);//内核对象，使用完要释放
 
-	if (1==CanSqareDown())
+	if (1 == CanSqareDown() && 1 == CanSqareDown2())
 	{
 		SqareDown();
 	}
 	else
 	{
+		//1 -> 2
+		Change1to2();
 		//不可以下落->到达底部，产生新的随机方块
 		CreateRandomSqare();
 		//复制到背景
@@ -167,4 +169,39 @@ int CanSqareDown()
 		}
 	}
 	return 1;
+}
+
+int CanSqareDown2()
+{
+	int i = 0, j = 0;
+	for (i = 19; i >= 0; i--)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			if (1 == g_arrBackGround[i][j])
+			{
+				if (2 == g_arrBackGround[i+1][j])
+				{
+					return 0;
+				}
+			}
+		}
+		
+	}
+	return 1;
+}
+
+void Change1to2()
+{
+	int i = 0, j = 0;
+	for (i = 0; i < 20; i++)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			if (1 == g_arrBackGround[i][j])
+			{
+				g_arrBackGround[i][j] = 2;
+			}
+		}
+	}
 }

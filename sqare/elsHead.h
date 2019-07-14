@@ -27,5 +27,9 @@ void OnTimer(HWND hWnd);
 
 //方块停在最后一行  0 - 不可以下落  1 - 可以下落 
 int CanSqareDown();
+int CanSqareDown2();
+
+//把1变成2
+void Change1to2();
 
 #endif // !DEF_ELS_HEAD
