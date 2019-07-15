@@ -28,6 +28,7 @@ void OnTimer(HWND hWnd);
 void OnLeft(HWND hWnd);
 void OnRight(HWND hWnd);
 void OnDown(HWND hWnd);
+void OnChangeSqare(HWND hWnd);
 
 //方块停在最后一行  0 - 不可以下落  1 - 可以下落 
 int CanSqareDown();
@@ -36,8 +37,9 @@ int CanSqareLeft();
 int CanSqareLeft2();
 int CanSqareRight();
 int CanSqareRight2();
+int CanSqareChangeShape();
 
 //把1变成2
 void Change1to2();
-
+void ChangeSqare();
 #endif // !DEF_ELS_HEAD

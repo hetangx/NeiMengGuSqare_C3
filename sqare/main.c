@@ -100,7 +100,8 @@ LRESULT CALLBACK PEluoSi(HWND hWnd, UINT nMsg, WPARAM wParam, LPARAM lParam)
 			OnRight(hWnd);
 			break;
 		case VK_UP:
-
+			//变形
+			OnChangeSqare(hWnd);
 			break;
 		case VK_DOWN:
 			//加速
