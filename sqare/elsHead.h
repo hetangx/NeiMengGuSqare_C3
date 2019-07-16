@@ -38,8 +38,10 @@ int CanSqareLeft2();
 int CanSqareRight();
 int CanSqareRight2();
 int CanSqareChangeShape();
+int CanLineSqareChange();
 
 //°Ñ1±ä³É2
 void Change1to2();
 void ChangeSqare();
+void ChangeLineSqare();
 #endif // !DEF_ELS_HEAD

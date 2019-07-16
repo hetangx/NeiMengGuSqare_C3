@@ -7,13 +7,13 @@ int g_nSqareID = 0;
 int g_nLine = 0;
 int g_nList = 0;
 /*
-  0123456789
-0|□□□□□□□□□□|	□*10	
-1|□□□o■o□□□□|	由o构成的3*3方块，其左上角坐标为(0,3),故在
-2|□□□■■■□□□□|	函数CreateRandomSqare的switch结构中，把
-3|□□□ooo□□□□|	0, 1, 2, 3, 4这5个case的g_nLine于g_nList
-4|□□□□□□□□□□|	初始化为(0,3)
-*/
+ *  0123456789
+ *0|□□□□□□□□□□|	□*10	
+ *1|□□□o■o□□□□|	由o构成的3*3方块，其左上角坐标为(0,3),故在
+ *2|□□□■■■□□□□|	函数CreateRandomSqare的switch结构中，把
+ *3|□□□ooo□□□□|	0, 1, 2, 3, 4这5个case的g_nLine于g_nList
+ *4|□□□□□□□□□□|	初始化为(0,3)
+ */
 void OnPaint(HDC hDC)
 {
 	//创建兼容性DC
@@ -141,7 +141,7 @@ int CreateRandomSqare()
 		g_arrSqare[0][0] = 1, g_arrSqare[0][1] = 1, g_arrSqare[0][2] = 1, g_arrSqare[0][3] = 1,		//	|■■■■|
 			g_arrSqare[1][0] = 0, g_arrSqare[1][1] = 0, g_arrSqare[1][2] = 0, g_arrSqare[1][3] = 0;	//	|    |
 		g_nLine = 0;
-		g_nList = 3;//
+		g_nList = 4;//
 		break;
 
 	default:
@@ -421,6 +421,7 @@ void OnChangeSqare(HWND hWnd)
 		return ;
 	case 6:
 		//长条
+		ChangeLineSqare();
 		break;
 	}
 
@@ -483,4 +484,80 @@ int CanSqareChangeShape()
 
 
 	return 1;
+}
+
+void ChangeLineSqare()
+{
+	if (1 == g_arrBackGround[g_nLine][g_nList - 1])  //横着
+	{
+		//清零
+		g_arrBackGround[g_nLine][g_nList - 1] = 0;
+		g_arrBackGround[g_nLine][g_nList + 1] = 0;
+		g_arrBackGround[g_nLine][g_nList + 2] = 0;
+
+		if (2 == g_arrBackGround[g_nLine + 1][g_nList])
+		{
+			//元素赋值
+			g_arrBackGround[g_nLine - 1][g_nList] = 1;
+			g_arrBackGround[g_nLine - 2][g_nList] = 1;
+			g_arrBackGround[g_nLine - 3][g_nList] = 1;
+		}
+		else if (2 == g_arrBackGround[g_nLine + 2][g_nList])
+		{
+			g_arrBackGround[g_nLine + 1][g_nList] = 1;
+			g_arrBackGround[g_nLine - 1][g_nList] = 1;
+			g_arrBackGround[g_nLine - 2][g_nList] = 1;
+		}
+		else
+		{
+			g_arrBackGround[g_nLine - 1][g_nList] = 1;
+			g_arrBackGround[g_nLine + 1][g_nList] = 1;
+			g_arrBackGround[g_nLine + 2][g_nList] = 1;
+		}
+	}
+	else
+	{
+		//清零
+		g_arrBackGround[g_nLine - 1][g_nList] = 0;
+		g_arrBackGround[g_nLine + 1][g_nList] = 0;
+		g_arrBackGround[g_nLine + 2][g_nList] = 0;
+
+		if (2 == g_arrBackGround[g_nLine][g_nList + 1] )
+		{
+			//赋值
+			g_arrBackGround[g_nLine][g_nList - 1] = 1;
+			g_arrBackGround[g_nLine][g_nList - 2] = 1;
+			g_arrBackGround[g_nLine][g_nList - 3] = 1;
+			//标记改变
+			g_nList -= 2;
+		}
+		else if (2 == g_arrBackGround[g_nLine][g_nList + 2])
+		{
+			g_arrBackGround[g_nLine][g_nList + 1] = 1;
+			g_arrBackGround[g_nLine][g_nList - 1] = 1;
+			g_arrBackGround[g_nLine][g_nList - 2] = 1;
+			g_nList -= 1;
+		}
+		else if (2 == g_arrBackGround[g_nLine][g_nList - 1])
+		{
+			g_arrBackGround[g_nLine][g_nList + 1] = 1;
+			g_arrBackGround[g_nLine][g_nList + 2] = 1;
+			g_arrBackGround[g_nLine][g_nList + 3] = 1;
+			g_nList += 1;
+		}
+		else
+		{
+			//元素赋值
+			g_arrBackGround[g_nLine][g_nList - 1] = 1;
+			g_arrBackGround[g_nLine][g_nList + 1] = 1;
+			g_arrBackGround[g_nLine][g_nList + 2] = 1;
+		}
+
+		
+	}
+}
+
+int CanLineSqareChange()
+{
+
 }
