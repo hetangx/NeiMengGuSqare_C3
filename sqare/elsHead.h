@@ -44,4 +44,6 @@ int CanLineSqareChange();
 void Change1to2();
 void ChangeSqare();
 void ChangeLineSqare();
+void DestroyOneLine();
+
 #endif // !DEF_ELS_HEAD

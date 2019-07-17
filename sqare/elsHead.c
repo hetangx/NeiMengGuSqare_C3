@@ -207,6 +207,7 @@ void OnTimer(HWND hWnd)
 	{
 		//1 -> 2
 		Change1to2();
+		DestroyOneLine();
 		//不可以下落->到达底部，产生新的随机方块
 		CreateRandomSqare();
 		//复制到背景
@@ -581,4 +582,32 @@ int CanLineSqareChange()
 	}
 
 	return 1;
+}
+
+void DestroyOneLine()
+{
+	int i = 0, j = 0;
+	int nSum = 0;
+	int nTempi = 0;
+	for (i = 19; i >= 0; i--)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			nSum += g_arrBackGround[i][j];
+		}
+		if (20 == nSum)
+		{
+			//消除一行
+			for (nTempi = i - 1; nTempi >= 0; nTempi--)
+			{
+				for (j = 0; j < 10; j++)
+				{
+					g_arrBackGround[nTempi + 1][j] = g_arrBackGround[nTempi][j];
+				}
+			}
+			//使循环从头开始
+			i = 20;
+		}
+		nSum = 0;
+	}
 }
