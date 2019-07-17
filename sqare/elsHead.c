@@ -421,7 +421,10 @@ void OnChangeSqare(HWND hWnd)
 		return ;
 	case 6:
 		//长条
-		ChangeLineSqare();
+		if (1 == CanLineSqareChange())
+		{
+			ChangeLineSqare();
+		}
 		break;
 	}
 
@@ -469,10 +472,6 @@ int CanSqareChangeShape()
 		}
 	}
 
-	//if (g_nList < 0 || g_nList>9)
-	//{
-	//	return 0;
-	//}
 	if (g_nList < 0)
 	{
 		g_nList = 0;
@@ -522,7 +521,7 @@ void ChangeLineSqare()
 		g_arrBackGround[g_nLine + 1][g_nList] = 0;
 		g_arrBackGround[g_nLine + 2][g_nList] = 0;
 
-		if (2 == g_arrBackGround[g_nLine][g_nList + 1] )
+		if (2 == g_arrBackGround[g_nLine][g_nList + 1] ||9==g_nList)
 		{
 			//赋值
 			g_arrBackGround[g_nLine][g_nList - 1] = 1;
@@ -531,14 +530,14 @@ void ChangeLineSqare()
 			//标记改变
 			g_nList -= 2;
 		}
-		else if (2 == g_arrBackGround[g_nLine][g_nList + 2])
+		else if (2 == g_arrBackGround[g_nLine][g_nList + 2]||8==g_nList)
 		{
 			g_arrBackGround[g_nLine][g_nList + 1] = 1;
 			g_arrBackGround[g_nLine][g_nList - 1] = 1;
 			g_arrBackGround[g_nLine][g_nList - 2] = 1;
 			g_nList -= 1;
 		}
-		else if (2 == g_arrBackGround[g_nLine][g_nList - 1])
+		else if (2 == g_arrBackGround[g_nLine][g_nList - 1]|| 0 == g_nList)
 		{
 			g_arrBackGround[g_nLine][g_nList + 1] = 1;
 			g_arrBackGround[g_nLine][g_nList + 2] = 1;
@@ -559,5 +558,27 @@ void ChangeLineSqare()
 
 int CanLineSqareChange()
 {
+	int i = 0, j = 0;
+	for (i = 1; i < 4; i++)
+	{
+		if (2 == g_arrBackGround[g_nLine][g_nList + i]|| g_nList + i>9)
+		{
+			break;
+		}
+	}
+	
+	for (j = 1; j < 4; j++)
+	{
+		if (2 == g_arrBackGround[g_nLine][g_nList - j] || g_nList - j < 0)
+		{
+			break;
+		}
+	}
 
+	if ((i - 1 + j - 1) < 3)
+	{
+		return 0;
+	}
+
+	return 1;
 }
