@@ -6,6 +6,7 @@ char g_arrSqare[2][4] = { 0 };
 int g_nSqareID = 0;
 int g_nLine = 0;
 int g_nList = 0;
+int g_nScore = 0;
 /*
  *  0123456789
  *0|□□□□□□□□□□|	□*10	
@@ -19,16 +20,18 @@ void OnPaint(HDC hDC)
 	//创建兼容性DC
 	HDC hMemDC = CreateCompatibleDC(hDC);
 	//创建一张纸
-	HBITMAP hBitmapBack = CreateCompatibleBitmap(hDC, 500, 600);
+	HBITMAP hBitmapBack = CreateCompatibleBitmap(hDC, 500, 650);
 	//关联编号和纸
 	SelectObject(hMemDC, hBitmapBack);
 
+
 	PaintSqare(hMemDC);
 	PaintSqare2(hMemDC);
+	PaintScore(hMemDC);
 
 	//内存DC传递至窗口DC
-	BitBlt(hDC, 0, 0, 300, 600, hMemDC, 0, 0, SRCCOPY);
-
+	BitBlt(hDC, 0, 0, 500, 600, hMemDC, 0, 0, SRCCOPY);
+	
 	//释放
 	DeleteObject(hBitmapBack);
 	DeleteDC(hMemDC);
@@ -39,9 +42,28 @@ void OnPaint(HDC hDC)
 	*/
 }
 
+void PaintScore(HDC hMemDC)
+{
+	char strScore[10] = { 0 };
+	Rectangle(hMemDC, 300, 0, 500, 600);
+	//显示分数
+	_itoa_s(g_nScore, strScore, 10, 10);
+	TextOut(hMemDC, 400, 10, "分数", strlen("分数"));
+	TextOut(hMemDC, 400, 32, strScore, strlen(strScore));
+}
+
+void OnCreate()
+{
+	srand((unsigned int)time(NULL));
+	CreateRandomSqare();
+	CopySqareToBack();
+}
 void PaintSqare(HDC hMemDC)
 {
+	int i = 0, j = 0;
 	//画大方块
+	HBRUSH hWhiteRec;
+	HBRUSH hColorRec;
 	Rectangle(hMemDC, 0, 0, 300, 600);
 
 	/*
@@ -52,16 +74,16 @@ void PaintSqare(HDC hMemDC)
 	g_arrBackGround[3][5] = 1;
 	*/
 
-	HBRUSH hWhiteRec;
-	HBRUSH hColorRec = CreateSolidBrush(RGB(233, 27, 182));
+
+	hColorRec = CreateSolidBrush(RGB(233, 27, 182));
 	hWhiteRec = SelectObject(hMemDC, hColorRec);
 
-	int i = 0, j = 0;
+	
 	for (i = 0; i < 20; i++)
 	{
 		for (j = 0; j < 10; j++)
 		{
-			if (g_arrBackGround[i][j] == 1)
+			if (1 == g_arrBackGround[i][j])
 			{
 				//画小方块
 				Rectangle(hMemDC, j * 30, i * 30, j * 30 + 30, i * 30 + 30);
@@ -74,32 +96,13 @@ void PaintSqare(HDC hMemDC)
 	DeleteObject(hColorRec);
 }
 
-void PaintSqare2(HDC hMemDC)
-{
-	HBRUSH hWhiteRec;
-	HBRUSH hColorRec = CreateSolidBrush(RGB(114, 179, 49));
-	hWhiteRec = SelectObject(hMemDC, hColorRec);
-	int i = 0, j = 0;
-	for (i = 0; i < 20; i++)
-	{
-		for (j = 0; j < 10; j++)
-		{
-			if (2 == g_arrBackGround[i][j])
-			{
-				//画方块
-				Rectangle(hMemDC, j * 30, i * 30, j * 30 + 30, i * 30 + 30);
-			}
-		}
-	}
 
-	hColorRec = SelectObject(hMemDC, hWhiteRec);
-	DeleteObject(hColorRec);
-}
 
 int CreateRandomSqare()
 {
 	int nIndex = rand()%7;
-	switch (nIndex)
+	switch(6)
+	//switch (nIndex)
 	{
 	case 0:
 		g_arrSqare[0][0] = 1, g_arrSqare[0][1] = 1, g_arrSqare[0][2] = 0, g_arrSqare[0][3] = 0,		//	|■■  |
@@ -141,7 +144,7 @@ int CreateRandomSqare()
 		g_arrSqare[0][0] = 1, g_arrSqare[0][1] = 1, g_arrSqare[0][2] = 1, g_arrSqare[0][3] = 1,		//	|■■■■|
 			g_arrSqare[1][0] = 0, g_arrSqare[1][1] = 0, g_arrSqare[1][2] = 0, g_arrSqare[1][3] = 0;	//	|    |
 		g_nLine = 0;
-		g_nList = 4;//
+		g_nList = 4;
 		break;
 
 	default:
@@ -164,12 +167,6 @@ void CopySqareToBack()
 	}
 }
 
-void OnCreate()
-{
-	srand((unsigned int)time(NULL));
-	CreateRandomSqare();
-	CopySqareToBack();
-}
 
 void OnReturn(HWND hWnd)
 {
@@ -208,6 +205,13 @@ void OnTimer(HWND hWnd)
 		//1 -> 2
 		Change1to2();
 		DestroyOneLine();
+		//
+		if (0 == CanGameOver())
+		{
+			//结束程序
+			KillTimer(hWnd, DEF_TIMER1);
+			return 0;
+		}
 		//不可以下落->到达底部，产生新的随机方块
 		CreateRandomSqare();
 		//复制到背景
@@ -219,6 +223,22 @@ void OnTimer(HWND hWnd)
 
 	ReleaseDC(hWnd, hDC);
 }
+
+int CanGameOver()
+{
+	int i = 0;
+	for (i = 0; i < 10; i++)
+	{
+		if (2 == g_arrBackGround[0][i])
+		{
+			//游戏结束
+			MessageBox(NULL, "GameOver", "Tips", MB_OK);
+			return 0;
+		}
+	}
+	return 1;
+}
+
 
 int CanSqareDown()
 {
@@ -233,25 +253,6 @@ int CanSqareDown()
 	return 1;
 }
 
-int CanSqareDown2()
-{
-	int i = 0, j = 0;
-	for (i = 19; i >= 0; i--)
-	{
-		for (j = 0; j < 10; j++)
-		{
-			if (1 == g_arrBackGround[i][j])
-			{
-				if (2 == g_arrBackGround[i+1][j])
-				{
-					return 0;
-				}
-			}
-		}
-		
-	}
-	return 1;
-}
 
 void Change1to2()
 {
@@ -268,6 +269,48 @@ void Change1to2()
 	}
 }
 
+void PaintSqare2(HDC hMemDC)
+{
+	int i = 0, j = 0;
+	HBRUSH hWhiteRec;
+	HBRUSH hColorRec = CreateSolidBrush(RGB(114, 179, 49));
+	hWhiteRec = SelectObject(hMemDC, hColorRec);
+	
+	for (i = 0; i < 20; i++)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			if (2 == g_arrBackGround[i][j])
+			{
+				//画方块
+				Rectangle(hMemDC, j * 30, i * 30, j * 30 + 30, i * 30 + 30);
+			}
+		}
+	}
+
+	hColorRec = SelectObject(hMemDC, hWhiteRec);
+	DeleteObject(hColorRec);
+}
+int CanSqareDown2()
+{
+	int i = 0, j = 0;
+	for (i = 19; i >= 0; i--)
+	{
+		for (j = 0; j < 10; j++)
+		{
+			if (1 == g_arrBackGround[i][j])
+			{
+				if (2 == g_arrBackGround[i + 1][j])
+				{
+					return 0;
+				}
+			}
+		}
+
+	}
+	return 1;
+}
+//123
 void OnLeft(HWND hWnd)
 { 
 	//方块左移
@@ -398,7 +441,9 @@ void OnDown(HWND hWnd)
 void OnChangeSqare(HWND hWnd)
 {
 	HDC hDC = GetDC(hWnd);
-	switch (g_nSqareID)
+	
+	switch (6)
+//	switch (g_nSqareID)
 	{
 	case 0:
 	case 1:
@@ -466,7 +511,7 @@ int CanSqareChangeShape()
 	{
 		for (j = 0; j < 3; j++)
 		{
-			if (2 == g_arrBackGround[g_nLine][g_nList])
+			if (2 == g_arrBackGround[g_nLine+i][g_nList+j])
 			{
 				return 0;
 			}
@@ -603,11 +648,14 @@ void DestroyOneLine()
 				for (j = 0; j < 10; j++)
 				{
 					g_arrBackGround[nTempi + 1][j] = g_arrBackGround[nTempi][j];
+					
 				}
 			}
 			//使循环从头开始
+			g_nScore++;
 			i = 20;
 		}
 		nSum = 0;
 	}
 }
+

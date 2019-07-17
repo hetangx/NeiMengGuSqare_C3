@@ -10,6 +10,7 @@ void OnPaint(HDC hDC);//处理消息
 
 void PaintSqare(HDC hMemDC);//显示方块
 void PaintSqare2(HDC hMemDC);
+void PaintScore(HDC hMemDC);
 
 int CreateRandomSqare();//创建随机方块
 
@@ -39,6 +40,7 @@ int CanSqareRight();
 int CanSqareRight2();
 int CanSqareChangeShape();
 int CanLineSqareChange();
+int CanGameOver();
 
 //把1变成2
 void Change1to2();
