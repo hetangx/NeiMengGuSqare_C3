@@ -101,8 +101,8 @@ void PaintSqare(HDC hMemDC)
 int CreateRandomSqare()
 {
 	int nIndex = rand()%7;
-	switch(6)
-	//switch (nIndex)
+	//switch(6)
+	switch (nIndex)
 	{
 	case 0:
 		g_arrSqare[0][0] = 1, g_arrSqare[0][1] = 1, g_arrSqare[0][2] = 0, g_arrSqare[0][3] = 0,		//	|¡ö¡ö  |
@@ -442,8 +442,8 @@ void OnChangeSqare(HWND hWnd)
 {
 	HDC hDC = GetDC(hWnd);
 	
-	switch (6)
-//	switch (g_nSqareID)
+	//switch (6)
+	switch (g_nSqareID)
 	{
 	case 0:
 	case 1:
